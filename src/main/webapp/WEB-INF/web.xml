@@ -4,7 +4,7 @@
          https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
 
-    <display-name>Fishing App</display-name>
+    <display-name>Fishing Record System</display-name>
 
     <servlet>
         <servlet-name>jersey-servlet</servlet-name>

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecordDAO {
-    private final String url = "jdbc:mysql://localhost:3306/fishing_db?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8";
+    private final String url = "jdbc:mysql://localhost:3306/fishing_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8";
     private final String user = "root";
     private final String password = "bb3212333";
 

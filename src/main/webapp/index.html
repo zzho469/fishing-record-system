@@ -32,7 +32,7 @@
 
 <script>
     async function loadRecords() {
-        const res = await fetch('/fishing-app/api/records');
+        const res = await fetch('/fishing-record-system/api/records');
         const records = await res.json();
         const list = document.getElementById('recordList');
         list.innerHTML = '';
@@ -54,7 +54,7 @@
             baitUsed: form.baitUsed.value,
             notes: form.notes.value
         };
-        await fetch('/fishing-app/api/records', {
+        await fetch('/fishing-record-system/api/records', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data)
