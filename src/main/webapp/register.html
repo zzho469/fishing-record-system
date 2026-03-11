@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Registration</title>
+</head>
+<body>
+<h2>Register New User</h2>
+<form id="registerForm">
+    <label>Username: <input type="text" name="username" required></label><br>
+    <label>Password: <input type="password" name="password" required></label><br>
+    <button type="submit">Register</button>
+</form>
+
+<script>
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const data = {
+            username: form.username.value,
+            password: form.password.value
+        };
+        const res = await fetch('/fishing-record-system/api/users/register', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        });
+        if(res.ok){
+            alert("Registration successful!");
+            form.reset();
+        } else {
+            const text = await res.text();
+            alert("Registration failed: " + text);
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Records</title>
+</head>
+<body>
+<h2>Fishing Record List</h2>
+<ul id="recordList"></ul>
+
+<script>
+    async function loadRecords() {
+        const res = await fetch('/fishing-record-system/api/records');
+        const records = await res.json();
+        const list = document.getElementById('recordList');
+        list.innerHTML = '';
+        records.forEach(r => {
+            const li = document.createElement('li');
+            li.textContent = `${r.date} - ${r.fishType} (${r.sizeCm}cm) @ ${r.location}`;
+            list.appendChild(li);
+        });
+    }
+
+    loadRecords();
+</script>
+</body>
+</html>
