@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>钓鱼记录</title>
+</head>
+<body>
+<h2>钓鱼记录</h2>
+<form id="recordForm">
+    <label for="date">日期:</label>
+    <input type="date" id="date" name="date" required><br>
+
+    <label for="location">地点:</label>
+    <input type="text" id="location" name="location"><br>
+
+    <label for="fishType">鱼种:</label>
+    <input type="text" id="fishType" name="fishType"><br>
+
+    <label for="sizeCm">尺寸(cm):</label>
+    <input type="number" id="sizeCm" name="sizeCm"><br>
+
+    <label for="baitUsed">诱饵:</label>
+    <input type="text" id="baitUsed" name="baitUsed"><br>
+
+    <label for="notes">备注:</label>
+    <input type="text" id="notes" name="notes"><br>
+
+    <button type="submit">添加记录</button>
+</form>
+
+<ul id="recordList"></ul>
+
+<script>
+    async function loadRecords() {
+        const res = await fetch('/fishing-app/api/records');
+        const records = await res.json();
+        const list = document.getElementById('recordList');
+        list.innerHTML = '';
+        records.forEach(r => {
+            const li = document.createElement('li');
+            li.textContent = `${r.date} - ${r.fishType} (${r.sizeCm}cm) @ ${r.location}`;
+            list.appendChild(li);
+        });
+    }
+
+    document.getElementById('recordForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const data = {
+            date: form.date.value,
+            location: form.location.value,
+            fishType: form.fishType.value,
+            sizeCm: parseInt(form.sizeCm.value),
+            baitUsed: form.baitUsed.value,
+            notes: form.notes.value
+        };
+        await fetch('/fishing-app/api/records', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        });
+        form.reset();
+        loadRecords();
+    });
+
+    loadRecords();
+</script>
+</body>
+</html>
