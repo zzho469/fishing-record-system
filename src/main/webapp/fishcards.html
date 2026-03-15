@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fish Species</title>
+    <link rel="stylesheet" href="css/fishcard.css">
+</head>
+
+<body>
+
+<h1>Fish Species</h1>
+
+<div id="fish-grid"></div>
+
+<script>
+
+    async function loadFishCards() {
+
+        const res = await fetch('/fishing-record-system/api/species');
+        const speciesList = await res.json();
+
+        const grid = document.getElementById('fish-grid');
+
+        speciesList.forEach(s => {
+
+            const card = document.createElement('a');
+
+            // 跳转到详情页面
+            card.href = `fish-detail.html?fish=${s.name}`;
+
+            card.className = 'fish-card';
+
+            card.innerHTML = `
+                <div class="fish-card-img">
+                    <img src="images/${s.imageUrl}" alt="${s.name}">
+                </div>
+                <h4>${s.name}</h4>
+            `;
+
+            grid.appendChild(card);
+
+        });
+    }
+
+    loadFishCards();
+
+</script>
+
+</body>
+</html>

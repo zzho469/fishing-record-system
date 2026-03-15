@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fish Detail</title>
+
+    <link rel="stylesheet" href="css/fishcard.css">
+
+    <style>
+
+        body{
+            font-family: Arial;
+            padding: 40px;
+        }
+
+        .fish-detail{
+            display:flex;
+            gap:40px;
+            margin-bottom:40px;
+        }
+
+        .fish-detail img{
+            width:300px;
+            border-radius:10px;
+        }
+
+        .info{
+            max-width:500px;
+        }
+
+        table{
+            border-collapse: collapse;
+            width:100%;
+        }
+
+        th,td{
+            border:1px solid #ddd;
+            padding:8px;
+        }
+
+        th{
+            background:#f2f2f2;
+        }
+
+        .back{
+            margin-bottom:20px;
+            display:inline-block;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<a class="back" href="fishcards.html">⬅ Back to Fish List</a>
+
+<h1 id="fish-name"></h1>
+
+<div class="fish-detail">
+
+    <img id="fish-image">
+
+    <div class="info">
+
+        <h3>Description</h3>
+        <p id="fish-description"></p>
+
+        <h3>Recommended Spots</h3>
+        <p id="fish-spots"></p>
+
+        <h3>Fishing Techniques</h3>
+        <p id="fish-methods"></p>
+
+    </div>
+
+</div>
+
+<h2>Catch Records</h2>
+
+<table>
+
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th>Location</th>
+        <th>Size (cm)</th>
+        <th>Bait Used</th>
+        <th>Notes</th>
+    </tr>
+    </thead>
+
+    <tbody id="record-body"></tbody>
+
+</table>
+
+
+<script>
+
+    /* 读取URL参数 */
+
+    const params = new URLSearchParams(window.location.search);
+    const fishName = params.get("fish");
+
+
+    document.getElementById("fish-name").innerText = fishName;
+
+
+    /* 鱼类介绍数据 */
+
+    const fishInfo = {
+
+    Snapper:{
+    description:"Snapper is one of the most popular fish species in New Zealand. It is well known for its delicious meat and strong fight.",
+
+    spots:"Auckland Harbour, Rangitoto Island, Hauraki Gulf",
+
+    methods:"Strayline with squid or pilchard, soft bait fishing, slow jigging"
+    },
+
+    Kahawai:{
+    description:"Kahawai is a fast and aggressive fish often found near the surface.",
+
+    spots:"West coast beaches, harbour entrances",
+
+    methods:"Metal lures, soft baits, fly fishing"
+    },
+
+    Kingfish:{
+    description:"Kingfish are powerful predators and a prized sport fish.",
+
+    spots:"Rocky reefs and offshore islands",
+
+    methods:"Live bait, jigging, stickbaits"
+    }
+
+    };
+
+
+    /* 显示鱼类介绍 */
+
+    if(fishInfo[fishName]){
+
+    document.getElementById("fish-description").innerText =
+    fishInfo[fishName].description;
+
+    document.getElementById("fish-spots").innerText =
+    fishInfo[fishName].spots;
+
+    document.getElementById("fish-methods").innerText =
+    fishInfo[fishName].methods;
+
+    }
+
+
+    /* 设置鱼图片 */
+
+    document.getElementById("fish-image").src =
+    `images/${fishName.toLowerCase()}.jpg`;
+
+
+    /* 加载捕获记录 */
+
+    async function loadRecords(){
+
+    const res = await fetch(
+    `/fishing-record-system/api/species/${fishName}/records`
+    );
+
+    const records = await res.json();
+
+    const body = document.getElementById("record-body");
+
+    records.forEach(r => {
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+    <td>${r.date}</td>
+    <td>${r.location}</td>
+    <td>${r.sizeCm}</td>
+    <td>${r.baitUsed}</td>
+    <td>${r.notes}</td>
+    `;
+
+    body.appendChild(row);
+
+    });
+
+    }
+
+    loadRecords();
+
+</script>
+
+</body>
+</html>

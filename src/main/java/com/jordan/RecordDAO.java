@@ -47,4 +47,37 @@ public class RecordDAO {
             ps.executeUpdate();
         }
     }
+    public List<Record> getRecordsBySpecies(String fishType) throws Exception {
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        List<Record> records = new ArrayList<>();
+
+        String sql = "SELECT * FROM records WHERE fish_type = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, fishType);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                Record r = new Record();
+
+                r.setId(rs.getInt("id"));
+                r.setDate(rs.getString("date"));
+                r.setLocation(rs.getString("location"));
+                r.setFishType(rs.getString("fish_type"));
+                r.setSizeCm(rs.getInt("size_cm"));
+                r.setBaitUsed(rs.getString("bait_used"));
+                r.setNotes(rs.getString("notes"));
+
+                records.add(r);
+            }
+        }
+
+        return records;
+    }
 }

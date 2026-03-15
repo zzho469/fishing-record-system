@@ -2,26 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>View Records</title>
+    <title>Fish Records</title>
+    <!-- 样式表放在head里 -->
+    <link rel="stylesheet" href="css/fishcard.css">
 </head>
 <body>
-<h2>Fishing Record List</h2>
-<ul id="recordList"></ul>
 
-<script>
-    async function loadRecords() {
-        const res = await fetch('/fishing-record-system/api/records');
-        const records = await res.json();
-        const list = document.getElementById('recordList');
-        list.innerHTML = '';
-        records.forEach(r => {
-            const li = document.createElement('li');
-            li.textContent = `${r.date} - ${r.fishType} (${r.sizeCm}cm) @ ${r.location}`;
-            list.appendChild(li);
-        });
-    }
+<h1>Fish Records</h1>
 
-    loadRecords();
-</script>
+<div class="fish-grid">
+    <!-- Snapper卡片 -->
+    <a href="/fish/snapper" class="fish-card">
+        <img src="images/snapper.jpg" alt="Snapper">
+        <p>Snapper</p>
+    </a>
+
+    <!-- Kahawai卡片 -->
+    <a href="/fish/kahawai" class="fish-card">
+        <img src="images/kahawai.jpg" alt="Kahawai">
+        <p>Kahawai</p>
+    </a>
+
+    <!-- Squid卡片 -->
+    <a href="/fish/squid" class="fish-card">
+        <img src="images/squid.jpg" alt="Squid">
+        <p>Squid</p>
+    </a>
+</div>
+
 </body>
 </html>
